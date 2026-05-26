@@ -1,0 +1,3 @@
+projectcloudsyskyarovg.duckdns.org {
+    reverse_proxy web-app:3000
+}
