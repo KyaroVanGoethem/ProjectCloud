@@ -1,34 +1,26 @@
 name: Deploy website
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Copy files via SSH (SCP)
-              uses: appleboy/scp-action@v0.1.7
-              with:
-                  host: ${{ secrets.SSH_HOST }}
-                  username: ${{ secrets.SSH_USERNAME }}
-                  key: ${{ secrets.SSH_KEY }}
-                  source: "."
-                  target: "/var/www/projectkyaro"
-                  rm: false 
-
-            - name: Start Docker via SSH
-              uses: appleboy/ssh-action@v1.0.3
-              with:
-                  host: ${{ secrets.SSH_HOST }}
-                  username: ${{ secrets.SSH_USERNAME }}
-                  key: ${{ secrets.SSH_KEY }}
-                  script: |
-                      cd /var/www/projectkyaro
-                      docker compose down
-                      DOCKER_BUILDKIT=0 docker compose up -d --build
+      - name: Deploy via Native SSH/SCP
+        run: |
+          eval $(ssh-agent -s)
+          echo "${{ secrets.SSH_KEY }}" | tr -d '\r' | ssh-add -
+          
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+          
+          scp -r ./* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/projectkyaro/
+          
+          ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd /var/www/projectkyaro && docker compose up -d --build"
