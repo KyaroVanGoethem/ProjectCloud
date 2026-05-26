@@ -8,6 +8,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: vps 
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,4 +26,4 @@ jobs:
           
           scp -i ~/.ssh/id_rsa -r ./* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/projectkyaro/
           
-          ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd /var/www/projectkyaro && sudo docker compose up -d --build"
+          ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd /var/www/projectkyaro && docker compose up -d --build"
