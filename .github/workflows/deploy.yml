@@ -12,15 +12,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Alternatieve SCP actie die de Codeload-fout omzeilt
       - name: Copy files via SSH (SCP)
-        uses: appleboy/scp-action@v1 # Gewijzigd naar de juiste stabiele v1 tag
+        uses: cross-the-line/scp-pipeline@v1.2.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          source: "**" 
+          source: "."
           target: "/var/www/projectkyaro"
-          rm: false
 
       - name: start docker via SSH
         uses: appleboy/ssh-action@v1.2.0
