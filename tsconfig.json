@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",                          /* Moderne JavaScript-output */
+    "module": "NodeNext",                        /* Sluit aan bij de nieuwste Node.js standaarden */
+    "moduleResolution": "NodeNext",
+    "outDir": "./dist",                          /* Map waar de gecompileerde JS-bestanden belanden */
+    "rootDir": "./",                             /* Locatie van de TypeScript bronbestanden */
+    
+    /* Strictheid & Kwaliteit */
+    "strict": true,                              /* Activeert alle strikte type-controles */
+    "noImplicitAny": true,                       /* Voorkomt variabelen zonder type */
+    "strictNullChecks": true,                    /* Voorkomt 'undefined' errors tijdens runtime */
+    
+    /* Compatibiliteit */
+    "esModuleInterop": true,                     /* Maakt het importeren van CommonJS modules makkelijker */
+    "skipLibCheck": true,                        /* Slaat type-controles van node_modules over voor snellere builds */
+    "forceConsistentCasingInFileNames": true     /* Voorkomt hoofdletterfouten tussen Windows en Linux/Docker */
+  },
+  "include": ["**/*.ts"],                        /* Neem alle TypeScript-bestanden mee */
+  "exclude": ["node_modules", "dist"]            /* Sluit deze mappen uit van compilatie */
+}
