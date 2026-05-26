@@ -1,4 +1,4 @@
-name: Deploy to Strato VPS
+name: Deploy website
 
 on:
     push:
