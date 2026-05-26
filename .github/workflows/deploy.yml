@@ -12,15 +12,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Alternatieve SCP actie die de Codeload-fout omzeilt
-      - name: Copy files via SSH (SCP)
-        uses: cross-the-line/scp-pipeline@v1.2.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          source: "."
-          target: "/var/www/projectkyaro"
+      - name: Copy files via SSH (Native SCP)
+        run: |
+          # 1. Start de SSH agent en laad je private key in
+          eval $(ssh-agent -s)
+          echo "${{ secrets.SSH_KEY }}" | tr -d '\r' | ssh-add -
+          
+          # 2. Maak de SSH-omgeving veilig en herkenbaar voor GitHub
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
+          
+          # 3. Kopieer alle bestanden direct naar je VPS
+          scp -r ./* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/projectkyaro/
 
       - name: start docker via SSH
         uses: appleboy/ssh-action@v1.2.0
