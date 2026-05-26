@@ -2,9 +2,9 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 COPY ./ProjectCloud/package*.json ./
 RUN npm ci
-COPY ./ProjectCloud/ ./
 COPY ./tsconfig.json ./
-RUN npm run build
+COPY ./ProjectCloud/ ./
+RUN npx tsc --rootDir ./ --outDir ./dist
 
 FROM node:20-alpine
 WORKDIR /app
