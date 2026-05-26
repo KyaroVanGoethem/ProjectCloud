@@ -15,9 +15,9 @@ jobs:
             - name: Copy files via SSH (SCP)
               uses: appleboy/scp-action@v0.1.7
               with:
-                  host: ${{ secrets.SSH_HOST }}
-                  username: ${{ secrets.SSH_USERNAME }}
-                  key: ${{ secrets.SSH_KEY }}
+                  host: ${{ vps.SSH_HOST }}
+                  username: ${{ vps.SSH_USERNAME }}
+                  key: ${{ vps.SSH_KEY }}
                   source: "."
                   target: "/var/www/projectkyaro"
                   rm: false 
@@ -25,9 +25,9 @@ jobs:
             - name: Start Docker via SSH
               uses: appleboy/ssh-action@v1.0.3
               with:
-                  host: ${{ secrets.SSH_HOST }}
-                  username: ${{ secrets.SSH_USERNAME }}
-                  key: ${{ secrets.SSH_KEY }}
+                  host: ${{ vps.SSH_HOST }}
+                  username: ${{ vps.SSH_USERNAME }}
+                  key: ${{ vps.SSH_KEY }}
                   script: |
                       cd /var/www/projectkyaro
                       docker compose down
