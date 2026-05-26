@@ -12,4 +12,4 @@ COPY ./ProjectCloud/package*.json ./
 RUN npm i
 
 EXPOSE 3000
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/index.ts"]
