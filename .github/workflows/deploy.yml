@@ -13,12 +13,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Copy files via SSH (SCP)
-        uses: appleboy/scp-action@v0.1.8
+        uses: appleboy/scp-action@v1 # Gewijzigd naar de juiste stabiele v1 tag
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          source: "**" # Kopieert alle bestanden en mappen recursief
+          source: "**" 
           target: "/var/www/projectkyaro"
           rm: false
 
@@ -30,5 +30,4 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /var/www/projectkyaro
-            # Start of herstart je Docker containers (pas dit commando aan indien nodig)
             docker compose up -d --build
