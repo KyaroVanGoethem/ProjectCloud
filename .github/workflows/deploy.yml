@@ -8,6 +8,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # VUL HIER DE NAAM VAN JE ENVIRONMENT IN ALS ZE DAARONDER STAAN:
+    environment: vps 
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
