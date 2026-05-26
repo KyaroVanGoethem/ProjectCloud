@@ -9,7 +9,7 @@ RUN npm run build
 FROM node:20-alpine
 WORKDIR /app
 COPY ./ProjectCloud/package*.json ./
-RUN npm i
-
+RUN npm ci --only=production
+COPY --from=builder /app/dist ./dist
 EXPOSE 3000
-CMD ["node", "dist/index.ts"]
+CMD ["node", "dist/index.js"]
